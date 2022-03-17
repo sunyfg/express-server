@@ -9,6 +9,10 @@ const app = express()
 // 挂在静态资源, 添加前缀
 app.use('/public', express.static('./public'))
 
+// 解析JSON格式的请求体数据中间件
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+
 app.use(authMiddleware)
 
 // 挂在路由
