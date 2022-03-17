@@ -1,5 +1,7 @@
 const express = require('express')
-const router = require('./router')
+const userRouter = require('./router/user')
+const authMiddleware = require('./middlewares/auth')
+const errorMiddleware = require('./middlewares/error')
 const app = express()
 
 // 挂在静态资源
@@ -7,8 +9,15 @@ const app = express()
 // 挂在静态资源, 添加前缀
 app.use('/public', express.static('./public'))
 
+app.use(authMiddleware)
+
 // 挂在路由
-app.use(router)
+app.use(userRouter)
+// 给路由添加前缀
+app.use('/api', userRouter)
+
+// 错误中间件
+app.use(errorMiddleware)
 
 app.listen(8080, () => {
   console.log('listening http://localhost:8080')
