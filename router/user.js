@@ -3,7 +3,11 @@ const router = express.Router()
 
 router.get('/user/list', (req, res) => {
   console.log('/user/list 路由')
-  res.send('用户列表')
+  res.send({
+    status: 200,
+    msg: '请求成功',
+    data: req.query,
+  })
 })
 
 router.post('/user/add', (req, res) => {
