@@ -140,6 +140,114 @@ const cors = require('cors')
 app.use(cors())
 ```
 
+## MySQL 数据库
+
+### 安装并配置
+
+只需安装 MySQL Server 与 MySQL Workbench 两个软件。
+
+- MySQL Server: 专门用来提供数据存储和服务的软件
+- MySQL Workbench: 可视化的 MySQL 管理工具
+
+### 安装 mysql 模块
+
+mysql 模块是托管在 npm 上的第三方模块，它提供了在 Node.js 项目中链接和操作 MySQL 数据库的能力。
+
+```sh
+npm install mysql
+```
+
+### 配置 mysql 模块
+
+```js
+// 1. 导入 mysql 模块
+const mysql = require('mysql')
+// 2. 建立与 mysql 数据库的链接
+const db = mysql.createConnection({
+  host: 'localhost', // 数据库的 IP 地址
+  user: 'root', // 登录数据库的账号
+  password: 'admin123', // 登录数据库的密码
+  database: 'my_db_01', // 指定要操作的数据库
+})
+db.connect()
+```
+
+### mysql 使用
+
+```js
+// 查询数据
+db.query('select * from users', (err, results) => {
+  // 判断查询失败
+  if (err) return console.log(err.message)
+
+  // 查询成功
+  console.log('results')
+})
+
+// 插入数据
+const user = { username: 'zs', password: 'abc' }
+const sqlStr = 'insert into users (username, password) values (?, ?)'
+db.query(sqlStr, [user.username, user.password], (err, results) => {
+  if (err) return console.log(err.message)
+
+  if (results.affectedRows === 1) {
+    // 插入数据成功
+    console.log('插入数据成功')
+  }
+})
+
+// 插入数据--便捷方式
+// 数据对象的每个属性和数据表中的字段一一对应
+const user = { username: 'zs', password: 'abc' }
+const sqlStr = 'insert into users set ?'
+db.query(sqlStr, user, (err, results) => {
+  if (err) return console.log(err.message)
+
+  if (results.affectedRows === 1) {
+    // 插入数据成功
+    console.log('插入数据成功')
+  }
+})
+
+// 更新数据
+const user = { id: 6, username: 'zs', password: 'abc' }
+const sqlStr = 'update users set username=?, password=? where id=?'
+db.query(sqlStr, [user.username, user.password, user.id], (err, results) => {
+  if (err) return console.log(err.message)
+
+  if (results.affectedRows === 1) {
+    console.log('更新数据成功')
+  }
+})
+
+// 更新数据--便捷方式
+const user = { id: 6, username: 'zs', password: 'abc' }
+const sqlStr = 'update users set ? where id=?'
+db.query(sqlStr, [user, user.id], (err, results) => {
+  if (err) return console.log(err.message)
+
+  if (results.affectedRows === 1) {
+    console.log('更新数据成功')
+  }
+})
+
+// 删除数据
+const sqlStr = 'delete from users id=?'
+// 注意：如果 SQL 语句中有多个占位符，则必须使用数组为每个占位符制定具体的值
+//      如果 SQL 语句中只有一个占位符，则可以省略数组
+db.query(sqlStr, 7, (err, results) => {
+  if (err) return console.log(err.message)
+
+  if (results.affectedRows === 1) {
+    console.log('更新数据成功')
+  }
+})
+```
+
+### 标记删除
+
+所谓标记删除，就是在表中设置类似于 status 这样的状态字段，来标记当前这条数据是否被删除。没有执行 delete 语句把数据删除掉，执行 update 语句，将这条数据对应的 status 字段标记为删除。
+
 ## 身份认证
 
 - 服务端渲染推荐使用 `Session 认证机制`
