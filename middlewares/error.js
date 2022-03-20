@@ -3,6 +3,8 @@
 // 接收4个参数，分别是：(err, req, res, next)
 // 注意：必须注册在所有路由之后
 module.exports = (err, req, res, next) => {
-  console.log('发生了错误！' + err.message)
-  res.send('Error: ' + err.message)
+  if (err.name === 'UnauthorizedError') {
+    return res.send({ status: 401, msg: '无效的token！' })
+  }
+  res.send({ status: 500, msg: '未知的错误！' })
 }
