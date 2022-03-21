@@ -7,7 +7,7 @@ var db = mysql.createConnection({
   database: 'my_db_01',
 })
 
-db.connect()
+// db.connect()
 
 // 查询
 // db.query('SELECT * from users', (error, results) => {
@@ -74,14 +74,16 @@ db.connect()
 // })
 
 // 标记删除
-const sqlStr = `update users set status=? where id=?`
-db.query(sqlStr, [1, 6], (error, results) => {
-  if (error) return console.log(error.message)
+// const sqlStr = `update users set status=? where id=?`
+// db.query(sqlStr, [1, 6], (error, results) => {
+//   if (error) return console.log(error.message)
 
-  console.log(results)
-  if (results.affectedRows === 1) {
-    console.log('标记删除数据成功')
-  }
-})
+//   console.log(results)
+//   if (results.affectedRows === 1) {
+//     console.log('标记删除数据成功')
+//   }
+// })
 
-db.end()
+// db.end()
+
+module.exports = db
