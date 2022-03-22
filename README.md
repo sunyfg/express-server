@@ -301,3 +301,10 @@ npm i jsonwebtoken express-jwt
 
 - 当不存在跨域请求的时候，推荐使用 Session 身份认证机制
 - 当存在跨域请求的时候，推荐使用 JWT 身份认证机制
+
+## 表单校验
+
+- joi
+- express-contract
+
+增加 schema/ 表单验证规则。
