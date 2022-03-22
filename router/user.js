@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const checkMiddleware = require('../middlewares/check')
-
 const user_handler = require('../router_handler/user')
-
+const checkMiddleware = require('../middlewares/check')
 const contract = require('express-contract').contract
 const { regUserSchema } = require('../schema/user')
 

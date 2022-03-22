@@ -5,5 +5,7 @@
 module.exports = (err, req, res, next) => {
   if (err.name === 'UnauthorizedError') return res.cc('身份认证失败！')
 
+  console.log(err.message)
+
   res.cc('未知的错误！')
 }

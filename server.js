@@ -4,6 +4,7 @@ const expressJWT = require('express-jwt')
 const errorMiddleware = require('./middlewares/error')
 const app = express()
 const userRouter = require('./router/user')
+const userinfoRouter = require('./router/userinfo')
 const config = require('./config')
 
 // 封装统一结果处理函数 res.cc
@@ -38,6 +39,7 @@ app.use(expressJWT({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unles
 
 // 给路由添加前缀
 app.use('/api', userRouter)
+app.use('/my', userinfoRouter)
 
 // 错误中间件
 app.use(errorMiddleware)

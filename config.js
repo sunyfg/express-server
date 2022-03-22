@@ -4,4 +4,6 @@ module.exports = {
   jwtSecretKey: 'sunyanfeng No1!. haha',
   // token 有效期
   expiresIn: '10h',
+  // bcrypt 加密 salt
+  salt: 10,
 }
