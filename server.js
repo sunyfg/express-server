@@ -6,6 +6,7 @@ const app = express()
 const userRouter = require('./router/user')
 const userinfoRouter = require('./router/userinfo')
 const artCateRouter = require('./router/artcate')
+const articleRouter = require('./router/article')
 const config = require('./config')
 
 // 封装统一结果处理函数 res.cc
@@ -28,6 +29,10 @@ app.use(cors())
 // app.use(express.static('./public'))
 // 挂在静态资源, 添加前缀
 app.use('/public', express.static('./public'))
+app.use('/uploads', express.static('./uploads'))
+
+// JWT 身份认证
+app.use(expressJWT({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({ path: [/^\/(api|public|uploads)\//] }))
 
 // 解析 application/json 格式的请求体数据中间件
 // app.use(express.json())
@@ -35,13 +40,11 @@ app.use('/public', express.static('./public'))
 // 解析 application/x-www-form-urlencoded 格式的请求体数据
 app.use(express.urlencoded({ extended: false }))
 
-// JWT 身份认证
-app.use(expressJWT({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({ path: [/^\/api\//] }))
-
 // 给路由添加前缀
 app.use('/api', userRouter)
 app.use('/my', userinfoRouter)
 app.use('/my/article', artCateRouter)
+app.use('/my/article', articleRouter)
 
 // 错误中间件
 app.use(errorMiddleware)
