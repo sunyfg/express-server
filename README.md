@@ -1,4 +1,4 @@
-# Express 服务器
+# Express 服务器项目模板
 
 ## nodemon
 
